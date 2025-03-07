@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate Timestamp
-        run: echo "TIMESTAMP=$(date +'%Y%m%d_%H%M')" >> $GITHUB_ENV
+        run: echo "TIMESTAMP=$(date -u -d '8 hours' +'%Y%m%d_%H%M')" >> $GITHUB_ENV
 
       - name: Download YouBike JSON
         run: curl -o "youbike_${{ env.TIMESTAMP }}.json" https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json
@@ -23,5 +23,5 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add youbike_*.json
-          git commit -m "Add YouBike data at ${{ env.TIMESTAMP }}" || echo "No changes to commit"
+          git commit -m "Add YouBike data at Taiwan Time ${{ env.TIMESTAMP }}" || echo "No changes to commit"
           git push
